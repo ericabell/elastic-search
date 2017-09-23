@@ -56,3 +56,20 @@ function initMapping() {
     });
 }
 exports.initMapping = initMapping;
+
+function addDocument(document) {
+    return elasticClient.index({
+        index: indexName,
+        type: "document",
+        body: {
+            title: document.title,
+            content: document.content,
+            suggest: {
+                input: document.title.split(" "),
+                output: document.title,
+                payload: document.metadata || {}
+            }
+        }
+    });
+}
+exports.addDocument = addDocument;
