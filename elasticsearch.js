@@ -73,3 +73,20 @@ function addDocument(document) {
     });
 }
 exports.addDocument = addDocument;
+
+function getSuggestions(input) {
+    return elasticClient.suggest({
+        index: indexName,
+        type: "document",
+        body: {
+            docsuggest: {
+                text: input,
+                completion: {
+                    field: "suggest",
+                    fuzzy: true
+                }
+            }
+        }
+    })
+}
+exports.getSuggestions = getSuggestions;
